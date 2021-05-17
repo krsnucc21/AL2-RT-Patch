@@ -183,4 +183,10 @@ You can check if the new kernel is default as follows:
 
 Great! You have completed all the steps. You can reboot the instance and see if the new kernel brings up correctly.
 
-# Step 8: Check the boot kernel image. It should be /boot/vmlinuz-5.4.91
+# Step 8: Check the boot kernel image
+
+After the instance comes up, you can check the kernel version. That would look like the following:
+```bash
+% uname -a
+Linux ip-172-31-31-25.us-west-1.compute.internal 5.4.91-rt50 #2 SMP PREEMPT_RT Sun May 9 00:28:54 UTC 2021 aarch64 aarch64 aarch64 GNU/Linux
+```
