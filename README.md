@@ -34,7 +34,7 @@ sudo yum install -y ncurses-devel
 ```
 3) [rt_tests](https://wiki.linuxfoundation.org/realtime/documentation/howto/tools/rt-tests) is a tool to test the real time task scheduling. We will use [cyclic test](https://wiki.linuxfoundation.org/realtime/documentation/howto/tools/cyclictest/start) to measure the wake-up latency after applying the RT patch to the kernel.
 ```base
-sudo yum install -y git <= rt_tests
+sudo yum install -y git
 ```
 
 # Step 3: Download the kernel source and dependencies
@@ -52,3 +52,5 @@ To retrieve the source code from the downloaded RPM, rpm command can be used as 
 % rpmbuild -bp kernel.spec
 ```
 Note that the rpmbuild command will make proper changes and a configuration for your instance.
+
+# Step 4: Compile the kernel with oldconfig and install
