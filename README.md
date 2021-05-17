@@ -80,7 +80,7 @@ That must be shown first when you run oldconfig. Or, you can choose in by menuco
 
 # Step 5: apply the required code changes
 
-Please note that the real-time patch have several conflicts with the AL2 source code. To fix these conflicts, the following code changes should be applied:
+Please note that the real-time patch have several conflicts with the AL2 source code. To fix these conflicts, the following code changes should be applied. Note that the following code changes are under review and will be updated accordingly:
 ## Code change #1
 ```bash
 % vi kernel/printk/printk.c
