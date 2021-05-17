@@ -79,3 +79,73 @@ You should choose 'Fully Preemptible Kernel' by oldconfig:
 That must be shown first when you run oldconfig. Or, you can choose in by menuconfig by going to General setup, and select Preemption Model (Fully Preemptible Kernel (Real-Time))
 
 # Step 5: apply the required code changes
+
+Please note that the real-time patch have several conflicts with the AL2 source code. To fix these conflicts, the following code changes should be applied:
+## Code change #1
+```bash
+% vi kernel/printk/printk.c
+---
+"kernel/printk/printk.c" line 2506 of 3313
+void register_console(struct console *newcon)
+{
+        //unsigned long flags;
+        //remove this since the variable flags is not used
+---
+```
+## Code change #2
+```bash
+% vi mm/page_alloc.c
+---
+"mm/page_alloc.c" line 1426 of 8868
+#if 0
+remove the below according to RT50
+        spin_lock(&zone->lock);
+        isolated_pageblocks = has_isolate_pageblock(zone);
+...
+        spin_unlock(&zone->lock);
+#endif
+}
+---
+"mm/page_alloc.c" line 1358 of 8868
+                //__free_one_page(page, page_to_pfn(page), zone, 0, mt);
+                // add "true" as the last parameter to fix a build error
+                __free_one_page(page, page_to_pfn(page), zone, 0, mt, true);
+---
+```
+## Code change #3
+```bash
+% vi drivers/amazon/net/ena/kcompat.h
+---
+"drivers/amazon/net/ena/kcompat.h" line 335 of 809
+// remove the following function due to duplication definition
+/*
+static inline void skb_mark_napi_id(struct sk_buff *skb,
+                                    struct napi_struct *napi)
+{
+
+}
+
+static inline void napi_hash_del(struct napi_struct *napi)
+{
+
+}
+*/
+---
+```
+## Code change #4
+```bash
+% vi fs/libfs.c
+---
+"fs/libfs.c" line 97 of 1294
+        //unsigned *seq = &parent->d_inode->i_dir_seq, n;
+        //change i_dir_seq
+        unsigned *seq = &parent->d_inode->__i_dir_seq, n;
+---
+"fs/libfs.c" line 133 of 1296
+        //unsigned n, *seq = &parent->d_inode->i_dir_seq;
+        //change i_dir_seq
+        unsigned n, *seq = &parent->d_inode->__i_dir_seq;
+---
+```
+
+# Step 6: Compile the kernel
