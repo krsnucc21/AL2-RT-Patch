@@ -190,3 +190,17 @@ After the instance comes up, you can check the kernel version. That would look l
 % uname -a
 Linux ip-172-31-31-25.us-west-1.compute.internal 5.4.91-rt50 #2 SMP PREEMPT_RT Sun May 9 00:28:54 UTC 2021 aarch64 aarch64 aarch64 GNU/Linux
 ```
+
+# Step 9: Run rt-tests
+
+To test the new kernel, first install rt-tests.
+```bash
+% sudo yum install -y time
+% git clone git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git
+% cd rt-tests
+% git checkout stable/v1.0
+% make all
+% sudo make install
+```
+
+Running cyclictest, you can see the thread wake-up time and check if the real time scheduling is doing well for you.
