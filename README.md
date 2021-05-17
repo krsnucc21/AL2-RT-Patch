@@ -4,7 +4,7 @@ This document provides how to apply the real time patch to Amazon Linux 2. The v
 
 The RT patch for kernel 5.4.91 can be found at [kernel.org](https://mirrors.edge.kernel.org/pub/linux/kernel/projects/rt/5.4/older/patch-5.4.91-rt50.patch.xz).
 
-In this document, AWS Graviton2 instances will be used. Graviton2 is a 64-bit ARM CPU with Neoverse technology. You can find more information about Graviton2 [here](https://aws.amazon.com/ec2/graviton/)
+In this document, AWS Graviton2 instances will be used. Graviton2 is a 64-bit ARM CPU with Neoverse technology. You can find more information about Graviton2 [here](https://aws.amazon.com/ec2/graviton/).
 
 # Step 1: check the kernel version
 
@@ -36,3 +36,19 @@ sudo yum install -y ncurses-devel
 ```base
 sudo yum install -y git <= rt_tests
 ```
+
+# Step 3: Download the kernel source and dependencies
+
+The kernel source code and the real time patch can be downloaded by yumdownloader and wget:
+```base
+% yumdownloader --source kernel-5.4.91
+% wget https://mirrors.edge.kernel.org/pub/linux/kernel/projects/rt/5.4/older/patch-5.4.91-rt50.patch.xz
+```
+
+To retrieve the source code from the downloaded RPM, rpm command can be used as like the following:
+```base
+% rpm -ivh ./kernel-5.4.91-*.rpm
+% cd ~/rpmbuild/SPECS
+% rpmbuild -bp kernel.spec
+```
+Note that the rpmbuild command will make proper changes and a configuration for your instance.
