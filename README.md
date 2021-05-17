@@ -149,3 +149,12 @@ static inline void napi_hash_del(struct napi_struct *napi)
 ```
 
 # Step 6: Compile the kernel
+
+Now, the kernel source code is ready to build. You can run regular kernel build commands like the following:
+```bash
+% make -j 64 # c6g.metal has 64 cores
+% sudo make modules_install -j 64
+% sudo make install -j 64
+```
+
+# Step 7: Tell grub to reboot into the newly compiled kernel
