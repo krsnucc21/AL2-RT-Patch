@@ -53,4 +53,29 @@ To retrieve the source code from the downloaded RPM, rpm command can be used as 
 ```
 Note that the rpmbuild command will make proper changes and a configuration for your instance.
 
-# Step 4: Compile the kernel with oldconfig and install
+# Step 4: Configure the kernel with the real-time patch
+
+In this step, we apply the real-time patch to the kernel. First, we make .config file as follows:
+```bash
+% cd ~/rpmbuild/BUILD/kernel*/linux*/
+% make oldconfig
+```
+
+Then, the standard kernel features should be on for full real-time scheduling. They can be turned on by menuconfig:
+```bash
+% make menuconfig
+```
+Please go to General setup and on "Configure standard kernel features (expert users)"
+
+Now, the real-time patch code is applied:
+```base
+% xzcat ~/patch-5.4.91-rt50.patch.xz | patch -p1
+```
+You should choose 'Fully Preemptible Kernel' by oldconfig:
+```bash
+% make oldconfig
+```
+
+That must be shown first when you run oldconfig. Or, you can choose in by menuconfig by going to General setup, and select Preemption Model (Fully Preemptible Kernel (Real-Time))
+
+# Step 5: apply the required code changes
