@@ -158,3 +158,29 @@ Now, the kernel source code is ready to build. You can run regular kernel build 
 ```
 
 # Step 7: Tell grub to reboot into the newly compiled kernel
+
+Then, configure the grub to start with the new kernel. The following steps are optional and only needed when you don't have 'GRUB_DISABLE_SUBMENU=y' in your grub file. If you have that, you can skip this and go to the next step.
+```base
+% sudo cat /etc/default/grub
+GRUB_CMDLINE_LINUX_DEFAULT="console=tty0 console=ttyS0,115200n8 net.ifnames=0 biosdevname=0 nvme_core.io_timeout=4294967295 rd.emergency=poweroff rd.shell=0"
+GRUB_TIMEOUT=0
+GRUB_DISABLE_RECOVERY="true"
+
+# If the default grub config does not have GRUB_DISABLE_SUBMENU, add it
+% echo -e "\nGRUB_DISABLE_SUBMENU=y" | sudo tee -a /etc/default/grub
+% sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+```
+
+In this step, we set the new kernel as default to boot:
+```bash
+% sudo grubby --set-default /boot/vmlinuz-5.4.91-rt50
+```
+
+You can check if the new kernel is default as follows:
+```bash
+% sudo grubby --default-kernel
+```
+
+Great! You have completed all the steps. You can reboot the instance and see if the new kernel brings up correctly.
+
+# Step 8: Check the boot kernel image. It should be /boot/vmlinuz-5.4.91
