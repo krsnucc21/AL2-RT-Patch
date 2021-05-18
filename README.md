@@ -26,15 +26,15 @@ If you haven't done kernel builds before, you may need to install the following 
 
 1) kernel build tools:
 ```bash
-sudo yum-builddep -y kernel
+% sudo yum-builddep -y kernel
 ```
 2) nurses needs to enable Linux menuconfig:
 ```bash
-sudo yum install -y ncurses-devel
+% sudo yum install -y ncurses-devel
 ```
 3) [rt_tests](https://wiki.linuxfoundation.org/realtime/documentation/howto/tools/rt-tests) is a tool to test the real time task scheduling. We will use [cyclic test](https://wiki.linuxfoundation.org/realtime/documentation/howto/tools/cyclictest/start) to measure the wake-up latency after applying the RT patch to the kernel.
 ```base
-sudo yum install -y git
+% sudo yum install -y git
 ```
 
 # Step 3: Download the kernel source and dependencies
